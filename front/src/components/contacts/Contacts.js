@@ -1,24 +1,34 @@
 import React, { Fragment, useContext } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItem from './ContactItem';
-import { Grid, Header, Icon, Card } from 'semantic-ui-react';
-import ContactForm from './ContactForm';
+import { Card, Label } from 'semantic-ui-react';
 
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
 
-  const { contacts } = contactContext;
+  const { contacts, filtered } = contactContext;
+
+  if (contacts.length === 0) {
+    return (
+      <Label basic color='red' pointing size='huge'>
+        You Dont Have Contacts
+      </Label>
+    );
+  }
 
   return (
-    <Grid celled>
-      <Grid.Row>
-        <Grid.Column width={6}>
-          <Header as='h2' icon>
-            <Icon name='users' circular />
-            <Header.Content>Contacts</Header.Content>
-          </Header>
-          <Fragment>
-            {contacts.map(contact => (
+    <div>
+      <Card.Group doubling itemsPerRow={2} stackable>
+        {filtered !== null
+          ? filtered.map(contact => (
+              <ContactItem
+                textAlign='center'
+                key={contact.id}
+                contact={contact}
+                textAlign='center'
+              />
+            ))
+          : contacts.map(contact => (
               <ContactItem
                 textAlign='center'
                 key={contact.id}
@@ -26,14 +36,8 @@ const Contacts = () => {
                 textAlign='center'
               />
             ))}
-          </Fragment>
-        </Grid.Column>
-
-        <Grid.Column width={10}>
-          <ContactForm />
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+      </Card.Group>
+    </div>
   );
 };
 
