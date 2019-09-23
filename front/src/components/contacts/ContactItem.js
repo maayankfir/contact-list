@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Card, Icon, Button, Grid } from 'semantic-ui-react';
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactItem = ({ contact }) => {
   const contactContext = useContext(ContactContext);
-  const { deleteContact } = contactContext;
+  const { deleteContact, setCurrent, clearCurrent } = contactContext;
   const { id, name, email, phone, type } = contact;
 
   const onDelete = () => {
     deleteContact(id);
+    clearCurrent();
   };
 
   return (
@@ -35,7 +37,9 @@ const ContactItem = ({ contact }) => {
       </Card.Content>
       <Card.Content extra>
         <div className='ui two buttons'>
-          <Button primary>Edit</Button>
+          <Button primary onClick={() => setCurrent(contact)}>
+            Edit
+          </Button>
           <Button secondary onClick={onDelete}>
             Delete
           </Button>
@@ -43,6 +47,10 @@ const ContactItem = ({ contact }) => {
       </Card.Content>
     </Card>
   );
+};
+
+ContactItem.propTypes = {
+  contact: PropTypes.object.isRequired
 };
 
 export default ContactItem;

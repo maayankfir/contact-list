@@ -1,10 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
-import { Button, Form } from 'semantic-ui-react';
-import Contacts from './Contacts';
+import { Button, Form, Header, Icon } from 'semantic-ui-react';
+// import Contacts from './Contacts';
 
 const ContactForm = () => {
-  const contanctContext = useContext(ContactContext);
+  const contactContext = useContext(ContactContext);
+
+  const { addContact, updateContact, clearCurrent, current } = contactContext;
+
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact({
+        name: '',
+        email: '',
+        phone: '',
+        type: 'personal'
+      });
+    }
+  }, [contactContext, current]);
 
   const [contact, setContact] = useState({
     name: '',
@@ -20,16 +35,21 @@ const ContactForm = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    contanctContext.addContact(contact);
-    setContact({
-      name: '',
-      email: '',
-      phone: '',
-      type: 'personal'
-    });
+    if (current === null) {
+      addContact(contact);
+    } else {
+      updateContact(contact);
+    }
+    clearAll();
   };
+
+  const clearAll = () => {
+    clearCurrent();
+  };
+
   return (
     <Form onSubmit={onSubmit}>
+      <Header as='h2'>{current ? 'Edit Contact' : 'Add Contact'}</Header>
       <Form.Input
         label='Name'
         type='name'
@@ -71,7 +91,23 @@ const ContactForm = () => {
           onChange={onChange}
         />
       </Form.Group>
-      <Button type='submit'>Add Contact</Button>
+
+      <Button animated type='submit' color='green'>
+        <Button.Content visible>
+          {current ? 'Update Contact' : 'Add Contact'}
+        </Button.Content>
+        <Button.Content hidden>
+          <Icon name='hand victory' />
+        </Button.Content>
+      </Button>
+      {current && (
+        <Button animated basic color='red' onClick={clearAll}>
+          <Button.Content visible>Clear</Button.Content>
+          <Button.Content hidden>
+            <Icon name='arrow right' />
+          </Button.Content>
+        </Button>
+      )}
     </Form>
   );
 };
