@@ -19,15 +19,14 @@ function App() {
           <Router>
             <Fragment>
               <Navbar />
-              <div className='container'>
-                <Alerts />
-                <Switch>
-                  <Route exact path='/' component={Register} />
-                  <Route exact path='/login' component={Login} />
-                  <Route exact path='/home' component={Home} />
-                  <Route exact path='/about' component={About} />
-                </Switch>
-              </div>
+
+              <Alerts />
+              <Switch>
+                <Route exact path='/' component={Register} />
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/home' component={Home} />
+                <Route exact path='/about' component={About} />
+              </Switch>
             </Fragment>
           </Router>
         </AlertState>

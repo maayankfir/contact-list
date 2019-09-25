@@ -1,20 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
 import {
   Button,
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Segment
 } from 'semantic-ui-react';
 
 const Register = () => {
   const alertContext = useContext(AlertContext);
-
+  const authContext = useContext(AuthContext);
+  const { register, error, clearErrors } = authContext;
   const { setAlert } = alertContext;
+
+  useEffect(() => {
+    if (error) {
+      setAlert(error);
+      clearErrors();
+    }
+  }, [error]);
 
   const [user, setUser] = useState({
     name: '',
@@ -29,11 +37,15 @@ const Register = () => {
   const onSubmit = e => {
     e.preventDefault();
     if (name === '' || email === '' || password === '') {
-      setAlert('Please enter all fields!', 'danger');
+      setAlert('Please enter all fields!');
     } else if (password !== password2) {
       setAlert('Passwords do not match! Please try again.');
     } else {
-      console.log('register');
+      register({
+        name,
+        email,
+        password
+      });
     }
   };
   return (
@@ -61,6 +73,7 @@ const Register = () => {
               iconPosition='left'
               placeholder='E-mail address'
               name='email'
+              type='email'
               value={email}
               onChange={onChange}
               required

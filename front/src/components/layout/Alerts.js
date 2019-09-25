@@ -9,7 +9,7 @@ const Alerts = () => {
     alertContext.alerts.length > 0 &&
     alertContext.alerts.map(alert => (
       <Segment key={alert.id}>
-        <Message error header='Error!' content={alert.msg} />
+        <Message size='large' error header='Error!' content={alert.msg} />
       </Segment>
     ))
   );

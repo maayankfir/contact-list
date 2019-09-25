@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Icon, Button, Grid } from 'semantic-ui-react';
+import { Card, Icon, Button } from 'semantic-ui-react';
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactItem = ({ contact }) => {
@@ -25,7 +25,7 @@ const ContactItem = ({ contact }) => {
           {type.charAt(0).toUpperCase() + type.slice(1)}
         </Card.Meta>
         <Card.Description>
-          <a>
+          <a href='/'>
             <Icon name='mail' />
             {email}
           </a>

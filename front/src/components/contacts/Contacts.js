@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItem from './ContactItem';
 import { Card, Label } from 'semantic-ui-react';
@@ -21,20 +21,10 @@ const Contacts = () => {
       <Card.Group doubling itemsPerRow={2} stackable>
         {filtered !== null
           ? filtered.map(contact => (
-              <ContactItem
-                textAlign='center'
-                key={contact.id}
-                contact={contact}
-                textAlign='center'
-              />
+              <ContactItem key={contact.id} contact={contact} />
             ))
           : contacts.map(contact => (
-              <ContactItem
-                textAlign='center'
-                key={contact.id}
-                contact={contact}
-                textAlign='center'
-              />
+              <ContactItem key={contact.id} contact={contact} />
             ))}
       </Card.Group>
     </div>
