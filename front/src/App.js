@@ -4,25 +4,30 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
-import WelcomePage from './components/pages/WelcomePage';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 import ContactState from './context/contact/ContactState';
+import AuthState from './context/auth/AuthState';
 
 function App() {
   return (
-    <ContactState>
-      <Router>
-        <Fragment>
-          <Navbar />
-          <div className='container'>
-            <Switch>
-              <Route exact path='/' component={WelcomePage} />
-              <Route exact path='/home' component={Home} />
-              <Route exact path='/about' component={About} />
-            </Switch>
-          </div>
-        </Fragment>
-      </Router>
-    </ContactState>
+    <AuthState>
+      <ContactState>
+        <Router>
+          <Fragment>
+            <Navbar />
+            <div className='container'>
+              <Switch>
+                <Route exact path='/' component={Register} />
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/home' component={Home} />
+                <Route exact path='/about' component={About} />
+              </Switch>
+            </div>
+          </Fragment>
+        </Router>
+      </ContactState>
+    </AuthState>
   );
 }
 

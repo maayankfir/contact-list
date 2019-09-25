@@ -9,7 +9,7 @@ const Home = () => {
     <Grid celled>
       <Grid.Row>
         <Grid.Column width={10}>
-          <Header as='h2' centered>
+          <Header as='h2'>
             Contacts <Icon name='users' circular />
           </Header>
           <ContactFilter />
