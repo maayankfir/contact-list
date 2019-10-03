@@ -11,18 +11,22 @@ import {
   Segment
 } from 'semantic-ui-react';
 
-const Register = () => {
+const Register = props => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
-  const { register, error, clearErrors } = authContext;
+  const { register, error, clearErrors, isAuthenticaed } = authContext;
   const { setAlert } = alertContext;
 
   useEffect(() => {
+    if (isAuthenticaed) {
+      props.history.push('/home');
+    }
     if (error) {
       setAlert(error);
       clearErrors();
     }
-  }, [error]);
+    //eslint-disable-next-line
+  }, [error, isAuthenticaed, props.history]);
 
   const [user, setUser] = useState({
     name: '',

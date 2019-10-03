@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alerts from './components/layout/Alerts';
@@ -10,8 +9,13 @@ import Login from './components/auth/Login';
 import ContactState from './context/contact/ContactState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
+import setAuthToken from './utils/setAuthToken';
 
-function App() {
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App = () => {
   return (
     <AuthState>
       <ContactState>
@@ -19,7 +23,6 @@ function App() {
           <Router>
             <Fragment>
               <Navbar />
-
               <Alerts />
               <Switch>
                 <Route exact path='/' component={Register} />
@@ -33,6 +36,6 @@ function App() {
       </ContactState>
     </AuthState>
   );
-}
+};
 
 export default App;
