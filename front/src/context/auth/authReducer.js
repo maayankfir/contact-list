@@ -11,7 +11,9 @@ import {
   CLEAR_CONTACTS,
   CLEAR_ERRORS,
   USER_LOADED,
-  AUTH_ERROR
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL
 } from '../types';
 
 export default (state, action) => {
@@ -31,8 +33,17 @@ export default (state, action) => {
         isAuthnticated: true,
         loading: false
       };
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', action.payload.token);
+      return {
+        ...state,
+        ...action.payload,
+        isAuthnticated: true,
+        loading: false
+      };
     case REGISTER_FAIL:
     case AUTH_ERROR:
+    case LOGIN_FAIL:
       localStorage.removeItem('token');
       return {
         ...state,

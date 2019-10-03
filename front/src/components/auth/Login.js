@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
+
 import {
   Button,
   Form,
@@ -8,7 +11,23 @@ import {
   Segment
 } from 'semantic-ui-react';
 
-const Login = () => {
+const Login = props => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+  const { login, error, clearErrors, isAuthenticaed } = authContext;
+  const { setAlert } = alertContext;
+
+  useEffect(() => {
+    if (isAuthenticaed) {
+      props.history.push('/home');
+    }
+    if (error === 'Invalid Credentials') {
+      setAlert(error);
+      clearErrors();
+    }
+    //eslint-disable-next-line
+  }, [error, isAuthenticaed, props.history]);
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -19,7 +38,14 @@ const Login = () => {
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
   const onSubmit = e => {
     e.preventDefault();
-    console.log('log in');
+    if (email === '' || password === '') {
+      setAlert('Please fill all fileds');
+    } else {
+      login({
+        email,
+        password
+      });
+    }
   };
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
@@ -37,6 +63,7 @@ const Login = () => {
               name='email'
               value={email}
               onChange={onChange}
+              required
             />
             <Form.Input
               fluid
@@ -47,6 +74,7 @@ const Login = () => {
               name='password'
               value={password}
               onChange={onChange}
+              required
             />
             <Button color='olive' fluid size='large'>
               Log In
